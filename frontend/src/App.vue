@@ -5,6 +5,7 @@ import Sidebar from "@/components/layout/Sidebar.vue"
 import LoginGate from "@/components/layout/LoginGate.vue"
 import BottomNav from "@/components/layout/BottomNav.vue"
 import { provideTrading } from "@/lib/trading"
+import { watchUpdates } from "@/lib/update"
 import { storeToRefs } from "pinia"
 import { useAuth } from "@/stores/auth"
 import { useLive } from "@/stores/live"
@@ -33,6 +34,8 @@ onMounted(async () => {
 })
 // colour-blind safe up / down colours (settings)
 watch(() => settings.s?.colorblind, (on) => document.documentElement.classList.toggle("cb", !!on), { immediate: true })
+// newer release notice: admins only (they're the ones who can update)
+watch(() => auth.isAdmin, (admin) => watchUpdates(admin), { immediate: true })
 // close the phone menu after picking a page
 watch(() => route.path, () => (menuOpen.value = false))
 // a page this account may not open (an old link, a bookmark) goes to Trading

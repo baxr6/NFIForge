@@ -89,6 +89,7 @@ async def test_viewer_access(fake, tmp_path):
     assert (await viewer.get("/api/bots/Fake/radar")).status_code == 403
     assert (await viewer.get("/api/host")).status_code == 403
     assert (await viewer.get("/api/notifications")).status_code == 403
+    assert (await viewer.get("/api/update")).status_code == 403  # update notice: admins only
     # the admin still sees both
     assert len((await admin.get("/api/bots")).json()) == 2
 

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue"
+import { computed } from "vue"
 import { navGroups } from "@/router"
 import { features } from "@/lib/features"
+import { update } from "@/lib/update"
 import { useAuth } from "@/stores/auth"
 import { useLive } from "@/stores/live"
 
@@ -10,16 +11,6 @@ const auth = useAuth()
 const featureOn = (item: object) => !("feature" in item) || (features as Record<string, boolean>)[item.feature as string]
 const version = __APP_VERSION__
 
-// newer release notice (backend asks github at most once a day)
-const update = ref<{ latest: string; url: string; how: string } | null>(null)
-async function checkUpdate() {
-  const response = await fetch("/api/update").catch(() => null)
-  const release = response?.ok ? await response.json() : null
-  update.value = release?.newer ? { latest: release.latest, url: release.url, how: release.how } : null
-}
-let timer = 0
-onMounted(() => { checkUpdate(); timer = window.setInterval(checkUpdate, 6 * 3600 * 1000) })
-onBeforeUnmount(() => clearInterval(timer))
 const botsUp = computed(() => Object.values(live.bots).filter((bot) => bot.connected).length)
 const botsAll = computed(() => Object.keys(live.bots).length)
 </script>
