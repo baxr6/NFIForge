@@ -3,6 +3,10 @@
 Newest first. Versions follow `major.minor.patch`: patch = fixes, minor = new features.
 Update an install with `./install.sh --update`.
 
+## 1.1.6 (2026-11-23)
+
+- Web ui file paths: same folder check, written the way GitHub code scanning recognises. No behaviour change
+
 ## 1.1.5 (2026-11-23)
 
 - Security tidy-ups from GitHub code scanning: web ui file paths are checked before the file is read, the CI token is
