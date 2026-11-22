@@ -54,7 +54,7 @@ export const useLive = defineStore("live", () => {
       if (msg.type === "snapshot") { bots.value = msg.data; events.value = msg.events ?? {} }
       else if (msg.type === "settings") useSettings().adopt(msg.data)
       else if (msg.type === "host") host.value = msg.data
-      else if (msg.type === "state_diff") Object.assign(bots.value[msg.bot] ??= { name: msg.bot, connected: false }, msg.data)
+      else if (msg.type === "state_diff" && msg.bot !== "__proto__") Object.assign(bots.value[msg.bot] ??= { name: msg.bot, connected: false }, msg.data)
       else if (msg.type === "bot_removed") { delete bots.value[msg.bot]; delete events.value[msg.bot] }
       else if (msg.type === "notification") onNote(msg.data)
       else if (msg.type === "notifications_read") unread.value = msg.data.unread
