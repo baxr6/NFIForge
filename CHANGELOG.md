@@ -3,6 +3,11 @@
 Newest first. Versions follow `major.minor.patch`: patch = fixes, minor = new features.
 Update an install with `./install.sh --update`.
 
+## 1.1.7 (2026-11-23)
+
+- Update notice: admins only (viewers can't update), and an amber dot on the phone tab bar's **More** when a newer
+  release is out
+
 ## 1.1.6 (2026-11-23)
 
 - Web ui file paths: same folder check, written the way GitHub code scanning recognises. No behaviour change
