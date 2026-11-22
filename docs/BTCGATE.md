@@ -43,8 +43,8 @@ NFIForge/
 Outside those folders, one guarded line each: the router include, the menu entry, the Positions badge slot, the event
 stream feed, the alert hand-off to push.
 
-Docker installs (install.sh): not yet. The image would need the btcgate package and a memory limit
-that allows for the worker; install.sh should ask when BTCGate is turned on.
+Docker installs: the image includes the btcgate package (off until `btcgate.enabled`). The container has no memory
+limit of its own; the worker's `memory_mb` caps it.
 
 Measured on the first build (150 coins, Binance): first start 6 min of candles plus a few minutes for btcgate's own
 Binance store, restart 11 s from the cache, 1.5 min per pass, labels 1-2 min after each 5 min candle, ~600 MB.
