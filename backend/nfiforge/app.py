@@ -192,7 +192,7 @@ def create_app(config: AppConfig) -> FastAPI:
   limiter = RateLimit()
   PUBLIC = ("/api/health", "/api/auth/status", "/api/auth/login", "/api/auth/pair")
   SHARED = "/api/share/"  # share links: no account, percent-only answer (share.py)
-  ADMIN_PREFIXES = ("/api/manage/", "/api/users", "/api/trade/")
+  ADMIN_PREFIXES = ("/api/manage/", "/api/users", "/api/trade/", "/api/update")
 
   def _session_user(session_id: str | None) -> dict | None:
     return db.session_user(digest(session_id)) if session_id else None

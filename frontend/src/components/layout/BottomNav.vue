@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue"
 import { btcgateOn } from "@/lib/btcgate"
+import { update } from "@/lib/update"
 import { useAuth } from "@/stores/auth"
 import { useLive } from "@/stores/live"
 
@@ -26,8 +27,11 @@ const tabs = computed(() => [
       </span>
       <span>{{ tab.label }}</span>
     </RouterLink>
-    <button class="tab" :class="menuOpen && 'tab-on'" aria-label="more pages" @click="emit('more')">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+    <button class="tab" :class="menuOpen && 'tab-on'" :aria-label="update ? 'more pages, update available' : 'more pages'" @click="emit('more')">
+      <span class="relative">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        <span v-if="update" class="absolute -top-0.5 -right-1 h-2 w-2 rounded-full bg-warn" />
+      </span>
       <span>More</span>
     </button>
   </nav>
