@@ -3,6 +3,11 @@
 Newest first. Versions follow `major.minor.patch`: patch = fixes, minor = new features.
 Update an install with `./install.sh --update`.
 
+## 1.1.5 (2026-11-23)
+
+- Security tidy-ups from GitHub code scanning: web ui file paths are checked before the file is read, the CI token is
+  read-only, live updates ignore a `__proto__` bot name. No behaviour change
+
 ## 1.1.4 (2026-11-22)
 
 - `nfiforge update` (pipx installs): downloads the newest release, installs it over this one (BTCGate is kept) and
