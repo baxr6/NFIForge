@@ -15,7 +15,7 @@ from nfiforge.workerproc import WorkerProcess, read_json
 
 log = logging.getLogger(__name__)
 
-INSTALL = "pipx inject nfiforge TA-Lib 'btcgate @ git+https://github.com/baxr6/BTCGate.git@6eaa03568401d13ced80782ef61eca7975faf900'"
+INSTALL = "pipx inject nfiforge TA-Lib 'btcgate @ git+https://github.com/baxr6/BTCGate.git@99251a4f22a1a6ca9eb8deadcac6794671d81df5'"
 
 __all__ = ["Supervisor", "read_json"]
 

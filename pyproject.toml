@@ -21,7 +21,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.5"]
 # btcgate worker (docs/BTCGATE.md), off unless btcgate.enabled in config.yaml; pinned to a BTCGate commit (2.40.2)
-btcgate = ["TA-Lib>=0.6", "btcgate @ git+https://github.com/baxr6/BTCGate.git@6eaa03568401d13ced80782ef61eca7975faf900"]
+btcgate = ["TA-Lib>=0.6", "btcgate @ git+https://github.com/baxr6/BTCGate.git@99251a4f22a1a6ca9eb8deadcac6794671d81df5"]
 
 [project.scripts]
 nfiforge = "nfiforge.__main__:main"

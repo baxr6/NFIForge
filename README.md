@@ -252,7 +252,7 @@ as a worker process of its own on Binance futures data (about 150 coins picked b
 by default; when off nothing of it is loaded.
 
 1. Install the package once (pipx installs; kept through NFIForge updates):
-   `pipx inject nfiforge TA-Lib 'btcgate @ git+https://github.com/baxr6/BTCGate.git@6eaa03568401d13ced80782ef61eca7975faf900'`
+   `pipx inject nfiforge TA-Lib 'btcgate @ git+https://github.com/baxr6/BTCGate.git@99251a4f22a1a6ca9eb8deadcac6794671d81df5'`
 2. In `config.yaml`: `btcgate: {enabled: true}` (and `memory_mb`, default 4096: the worker restarts above it), then
    restart NFIForge
 3. **BTCGate** appears in the menu. The first start loads about 2,500 candles per coin (5-10 minutes), later starts
