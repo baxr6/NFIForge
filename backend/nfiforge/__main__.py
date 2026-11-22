@@ -1,4 +1,4 @@
-# entry point: nfiforge [--config config.yaml] [init | service ... | user ... | pair ...]
+# entry point: nfiforge [--config config.yaml] [init | service ... | update | user ... | pair ...]
 
 from __future__ import annotations
 
@@ -33,6 +33,7 @@ def main() -> None:
     "service", help="start at boot with systemd (pipx installs): install, remove, status"
   )
   service_parser.add_argument("action", choices=["install", "remove", "status"])
+  commands.add_parser("update", help="install the newest release over this one and restart (pipx installs)")
   args = parser.parse_args()
   # init always sets up the per-user install unless told otherwise; the rest also find a ./config.yaml
   args.config = args.config or str(CONFIG_HOME / "config.yaml" if args.cmd == "init" else default_config())
@@ -42,6 +43,9 @@ def main() -> None:
       return
     if args.cmd == "service":
       setup.service(args.action, args.config)
+      return
+    if args.cmd == "update":
+      setup.update()
       return
   except ConfigError as e:
     sys.exit(str(e))

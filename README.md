@@ -187,17 +187,16 @@ It stops NFIForge, backs up your config and data to `~/nfiforge/backups/<date>-v
 rebuilds, restarts with the same config and shows what changed. If anything fails, the previous version is started
 again.
 
-**pipx install:** download the new `.whl` the same way as when installing, install it over the old one, restart the
-service:
+**pipx install:**
 
 ```bash
-pipx install --force ./nfiforge-<version>-py3-none-any.whl
-systemctl --user restart nfiforge
+nfiforge update
 ```
 
-Use the file name that was just downloaded (`ls nfiforge-*.whl`); with older wheels in the same folder,
-`./nfiforge-*.whl` would match more than one. Check the version afterwards: the sidebar shows it, or
-`pipx list | grep nfiforge`.
+It downloads the newest release's `.whl`, installs it over the old one (BTCGate is kept) and restarts the service.
+Versions before 1.1.4 don't have this command: update once by hand with the new `.whl`
+(`pipx install --force ./nfiforge-<version>-py3-none-any.whl`, then `systemctl --user restart nfiforge`). Check the
+version afterwards: the sidebar shows it, or `pipx list | grep nfiforge`.
 
 ## Trade actions
 

@@ -9,13 +9,16 @@ import shutil
 import socket
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import httpx
 import psutil
 import yaml
 
+from nfiforge import REPO, __version__
 from nfiforge.config import DATA_HOME, AppConfig, load_config
+from nfiforge.updates import newer
 
 UNIT = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "systemd" / "user" / "nfiforge.service"
 
@@ -186,3 +189,50 @@ def service(action: str, config_path: str) -> None:
   linger = subprocess.run(["loginctl", "show-user", user, "-p", "Linger"], capture_output=True, text=True, check=False)
   if "Linger=yes" not in linger.stdout and subprocess.run(["loginctl", "enable-linger", user], check=False).returncode:
     print(f"! to start at boot before anyone logs in: sudo loginctl enable-linger {user}")
+
+
+def update() -> None:
+  # pipx installs: the newest release's wheel over this one (injected packages such as btcgate are kept), then restart
+  if Path("/.dockerenv").exists():
+    sys.exit("docker install: run ./install.sh --update from the NFIForge folder")
+  pipx = shutil.which("pipx")
+  if not pipx:
+    sys.exit("pipx not found; install the release's .whl by hand (README, Update)")
+  try:
+    response = httpx.get(
+      f"https://api.github.com/repos/{REPO}/releases/latest",
+      headers={"Accept": "application/vnd.github+json"},
+      timeout=15,
+    )
+    response.raise_for_status()
+    release = response.json()
+  except (httpx.HTTPError, ValueError) as e:
+    sys.exit(f"can't read the latest release from github: {e}")
+  latest = str(release.get("tag_name", "")).lstrip("v")
+  if not newer(latest, __version__):
+    print(f"✓ up to date ({__version__})")
+    return
+  wheel = next((a for a in release.get("assets", []) if a.get("name", "").endswith(".whl")), None)
+  if not wheel:
+    sys.exit(f"release {latest} has no .whl yet; try again in a few minutes")
+  print(f"updating {__version__} -> {latest}")
+  with tempfile.TemporaryDirectory() as tmp:
+    path = Path(tmp) / wheel["name"]
+    try:
+      with httpx.stream("GET", wheel["browser_download_url"], follow_redirects=True, timeout=60) as download:
+        download.raise_for_status()
+        with path.open("wb") as f:
+          for chunk in download.iter_bytes():
+            f.write(chunk)
+    except httpx.HTTPError as e:
+      sys.exit(f"download failed: {e}")
+    if subprocess.run([pipx, "install", "--force", str(path)], check=False).returncode:
+      sys.exit("pipx install failed (see above)")
+  print(f"✓ installed {latest}")
+  if UNIT.exists() and shutil.which("systemctl"):
+    if _systemctl("restart", "nfiforge"):
+      print("✓ service restarted")
+    else:
+      print("! restart failed; see: journalctl --user -u nfiforge")
+  else:
+    print("restart NFIForge to use the new version")
