@@ -41,7 +41,7 @@ def newer(latest: str, current: str) -> bool:
 
 async def check(enabled: bool = True) -> dict:
   # docker installs update with the installer, pipx ones by installing the release's wheel
-  how = "./install.sh --update" if Path("/.dockerenv").exists() else "pipx install --force the release's .whl"
+  how = "./install.sh --update" if Path("/.dockerenv").exists() else "nfiforge update"
   out = {"current": __version__, "latest": None, "newer": False, "url": None, "how": how}
   if not enabled:
     return out

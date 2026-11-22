@@ -428,7 +428,7 @@ With a Telegram bot set up, BTCGate sends the alerts you picked and answers comm
 | install | update |
 |---|---|
 | Docker | `./install.sh --update`: backs up config and data to `~/nfiforge/backups/<date>-v<old>`, rebuilds, restarts, and puts the old version back if anything fails |
-| pipx | download the new wheel (`gh release download -R baxr6/NFIForge -p '*.whl'`), `pipx install --force ./nfiforge-*.whl`, then `systemctl --user restart nfiforge` |
+| pipx | `nfiforge update`: downloads the newest release's wheel, installs it over this one (BTCGate is kept) and restarts the service |
 
 The sidebar shows a note when a newer release is out. The BTCGate package installed with `pipx inject` stays through
 NFIForge updates. When a release needs a newer BTCGate, the changelog says so.
