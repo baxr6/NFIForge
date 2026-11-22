@@ -14,7 +14,11 @@ WORKDIR /app
 COPY pyproject.toml README.md LICENSE ./
 COPY backend ./backend
 COPY --from=web /src/frontend/dist ./backend/nfiforge/web
-RUN pip install --no-cache-dir . && useradd -r -u 1000 nfiforge && mkdir /data && chown nfiforge /data
+# btcgate is included but off unless btcgate.enabled; git only to fetch it, removed after
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+  && pip install --no-cache-dir ".[btcgate]" \
+  && apt-get purge -y git && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* \
+  && useradd -r -u 1000 nfiforge && mkdir /data && chown nfiforge /data
 USER nfiforge
 EXPOSE 8880
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \

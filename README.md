@@ -251,17 +251,17 @@ announcement locks, token unlocks, the chance of a big move, plus a ledger that 
 as a worker process of its own on Binance futures data (about 150 coins picked by volume), separate from the bots. Off
 by default; when off nothing of it is loaded.
 
-1. Install the package once (pipx installs; kept through NFIForge updates):
+1. pipx installs only, once (kept through NFIForge updates; the Docker image already includes it):
    `pipx inject nfiforge TA-Lib 'btcgate @ git+https://github.com/baxr6/BTCGate.git@99251a4f22a1a6ca9eb8deadcac6794671d81df5'`
 2. In `config.yaml`: `btcgate: {enabled: true}` (and `memory_mb`, default 4096: the worker restarts above it), then
-   restart NFIForge
+   restart NFIForge (Docker: `~/nfiforge/config.yaml`, then `docker compose restart` in `~/nfiforge`)
 3. **BTCGate** appears in the menu. The first start loads about 2,500 candles per coin (5-10 minutes), later starts
    about 15 s; labels follow each 5 minute candle by 1-2 minutes
 
 Modules, Telegram alerts and keys are set on **BTCGate → Settings** (admins; the worker restarts by itself). They
 are kept in `<data_dir>/btcgate/`: `btcgate.json` (BTCGate's settings, same sections as its own config) and
 `btcgate_secret.json` (owner-only: Coinalyze key, Telegram token and chat id). Without a Coinalyze key the direction
-label stays empty. The Docker image doesn't include BTCGate yet.
+label stays empty.
 
 ## What works now
 
