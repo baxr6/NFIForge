@@ -1161,8 +1161,9 @@ def create_app(config: AppConfig) -> FastAPI:
     async def spa(path: str):
       if path.startswith("api/"):
         raise HTTPException(404, "no such api route")
-      file_path = (web / path).resolve()
-      if path and file_path.is_relative_to(web.resolve()) and file_path.is_file():
+      root = os.path.realpath(web)
+      file_path = os.path.realpath(os.path.join(root, path))
+      if path and file_path.startswith(root + os.sep) and os.path.isfile(file_path):
         return FileResponse(file_path)
       return FileResponse(web / "index.html")
 
