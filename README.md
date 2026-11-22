@@ -7,6 +7,21 @@ What works is below, what changed in [CHANGELOG.md](CHANGELOG.md).
 
 How to use it, page by page: [docs/HELP.md](docs/HELP.md) (also in the app under **Help**).
 
+![Trading page](docs/screenshots/trading.png)
+
+<details>
+<summary>More screenshots</summary>
+
+| | |
+|---|---|
+| ![Analytics](docs/screenshots/analytics.png) Analytics | ![Chart](docs/screenshots/chart.png) Chart |
+| ![Positions](docs/screenshots/positions.png) Positions | ![Signal Radar](docs/screenshots/radar.png) Signal Radar |
+| ![Trade History](docs/screenshots/history.png) Trade History | <img src="docs/screenshots/trading_phone.png" alt="Phone" width="260"> Phone |
+
+Screenshots use the demo bot (`scripts/demo_bot.py`), not real trades.
+
+</details>
+
 ## Install
 
 ### 1. Before you start: turn on each bot's API
@@ -295,7 +310,8 @@ npm run dev                                  # http://127.0.0.1:5173, proxies to
 NFIFORGE_API=http://127.0.0.1:8890 npm run dev   # point at another backend
 ```
 
-Try it without a real bot: `python scripts/demo_fake_bot.py` (fake freqtrade on :18080), then run the backend with a
+Try it without a real bot: `python scripts/demo_bot.py` (demo freqtrade on :18080 with ~300 made-up trades, open
+positions and signals; `scripts/demo_fake_bot.py` is the bare test fake), then run the backend with a
 config whose bot url is `http://127.0.0.1:18080`, username `freqtrader`, password `s3cret`.
 
 ## Test
