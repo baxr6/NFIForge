@@ -6,6 +6,6 @@ const route = useRoute()
 <template>
   <div class="panel p-6">
     <div class="panel-title">{{ route.meta.label }}</div>
-    <p class="text-dim text-sm mt-2">not built yet, see docs/DESIGN.md phases</p>
+    <p class="text-dim text-sm mt-2">not built yet</p>
   </div>
 </template>

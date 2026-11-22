@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 
-// pages from docs/DESIGN.md §6; the ones not built yet show a placeholder. section: a page a viewer may be left
+// pages; the ones not built yet show a placeholder. section: a page a viewer may be left
 // without (docs/SHARING.md)
 export const navGroups = [
   { title: "LIVE", items: [
