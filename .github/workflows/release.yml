@@ -1,0 +1,44 @@
+name: release
+# push a tag like v0.2.0: checks it matches the code's version, publishes the docker image, creates the github release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+  packages: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: tag must match backend/nfiforge/__init__.py
+        run: |
+          v=$(sed -nE 's/__version__ = "([^"]+)"/\1/p' backend/nfiforge/__init__.py)
+          [ "v$v" = "${GITHUB_REF_NAME}" ] || { echo "tag ${GITHUB_REF_NAME} but code says v$v"; exit 1; }
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+      - name: release notes from CHANGELOG.md
+        run: awk -v v="## ${VERSION}" '$0 ~ "^"v {on=1; next} /^## / {on=0} on' CHANGELOG.md > notes.md && test -s notes.md
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with: { registry: ghcr.io, username: "${{ github.actor }}", password: "${{ secrets.GITHUB_TOKEN }}" }
+      - name: lowercase image name
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ env.IMAGE }}:${{ env.VERSION }},${{ env.IMAGE }}:latest
+      # pipx installs: a wheel with the built web ui inside
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: wheel
+        run: |
+          cd frontend && npm ci --no-audit --no-fund && npm run build && cd ..
+          cp -r frontend/dist backend/nfiforge/web
+          pip install build && python -m build --wheel
+      - name: github release
+        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+        run: gh release create "${GITHUB_REF_NAME}" --title "NFIForge ${GITHUB_REF_NAME}" --notes-file notes.md dist/*.whl

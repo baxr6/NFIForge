@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* =============================================================================
+   THEME (palette from FreqForge so both tools look like one family)
+   ============================================================================= */
+:root {
+  --void: #0a0e13;
+  --panel: #12181f;
+  --panel-raised: #181f28;
+  --panel-hover: #1c2430;
+  --line: #242e3b;
+  --line-bright: #334155;
+  --text: #e4eaf1;
+  --text-dim: #8695a7;
+  --text-faint: #4e5a6b;
+  --green: #3ddc84;
+  --green-glow: #3ddc8433;
+  --green-dim: #1a3d2c;
+  --amber: #f0a83c;
+  --amber-glow: #f0a83c2e;
+  --amber-dim: #3f2f18;
+  --red: #f0566a;
+  --red-glow: #f0566a2e;
+  --red-dim: #3f1c24;
+  --brand-a: #8b5cf6;
+  --brand-b: #3ea1ff;
+  --brand-glow: #8b5cf655;
+  --mono: "IBM Plex Mono", monospace;
+  --sans: "IBM Plex Sans", sans-serif;
+  --radius: 10px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* colour-blind safe up / down (settings): sky blue / vermillion, clear of the brand blue and amber */
+:root.cb {
+  --green: #5ec8f0;
+  --green-glow: #5ec8f033;
+  --green-dim: #17394a;
+  --red: #f2703f;
+  --red-glow: #f2703f2e;
+  --red-dim: #40231a;
+}
+
+@theme {
+  --color-void: var(--void);
+  --color-panel: var(--panel);
+  --color-raised: var(--panel-raised);
+  --color-hover: var(--panel-hover);
+  --color-line: var(--line);
+  --color-line-bright: var(--line-bright);
+  --color-ink: var(--text);
+  --color-dim: var(--text-dim);
+  --color-faint: var(--text-faint);
+  --color-up: var(--green);
+  --color-warn: var(--amber);
+  --color-down: var(--red);
+  --color-brand-a: var(--brand-a);
+  --color-brand-b: var(--brand-b);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+}
+
+html, body { height: 100%; }
+/* pinned to the visible screen, clear of the notch, the rounded corners and the home bar (env() is 0 on desktops).
+   fixed, not 100dvh: an iphone home-screen app counts the status bar in 100dvh and pushes the tab bar off screen */
+#app {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+/* full-height overlays (phone menu, trade drawer) sit outside #app's padding */
+.safe-y { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); }
+.safe-y-4 { padding-top: calc(1rem + env(safe-area-inset-top)); padding-bottom: calc(1rem + env(safe-area-inset-bottom)); }
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* panels: flat, no hard borders, soft depth */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* faint carbon-fibre weave behind gauge clusters */
+.carbon {
+  background-color: #0d1116;
+  background-image:
+    linear-gradient(27deg, #151a21 5px, transparent 5px),
+    linear-gradient(207deg, #151a21 5px, transparent 5px),
+    linear-gradient(27deg, #10141a 5px, transparent 5px),
+    linear-gradient(207deg, #10141a 5px, transparent 5px),
+    linear-gradient(90deg, #0f1318 10px, transparent 10px),
+    linear-gradient(#11161c 25%, #0e1217 25%, #0e1217 50%, transparent 50%, transparent 75%, #12171d 75%, #12171d);
+  background-size: 20px 20px;
+  background-position: 0 5px, 10px 0, 0 10px, 10px 5px, 0 0, 0 0;
+}
+
+/* grid-layout-plus: drop preview + resize corner in brand colours */
+.vgl-layout { --vgl-placeholder-bg: var(--brand-b); --vgl-placeholder-opacity: 12%; --vgl-resizer-border-color: var(--brand-b); }
+
+/* pill switch, green when on; keeps its size on phones (the phone rule below would stretch it), with a bigger
+   invisible tap area instead */
+.toggle { width: 38px; height: 22px; min-width: 0; min-height: 0; flex-shrink: 0; border-radius: 999px; background: var(--line-bright); position: relative; transition: background 0.2s var(--ease); }
+.toggle::after { content: ""; position: absolute; inset: -11px -4px; }
+.toggle span { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #e4eaf1; transition: transform 0.2s var(--ease); }
+.toggle.on { background: var(--green); box-shadow: 0 0 10px var(--green-glow); }
+.toggle.on span { transform: translateX(16px); }
+.toggle:disabled { opacity: 0.5; }
+
+/* phones: every control big enough for a thumb (44 px is the usual minimum); in base so a utility can still win */
+@layer base {
+  @media (pointer: coarse) and (max-width: 767px) {
+    button, select, input:not([type="checkbox"]):not([type="radio"]), nav a { min-height: 44px; }
+    button { min-width: 36px; }
+    input[type="checkbox"], input[type="radio"] { width: 20px; height: 20px; }
+    /* ios zooms into any input under 16 px */
+    input, select, textarea { font-size: 16px; }
+  }
+}

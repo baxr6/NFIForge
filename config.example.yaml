@@ -1,0 +1,19 @@
+# NFIForge config. Copy to config.yaml and edit. Passwords come from env vars (password_env) where possible.
+host: 127.0.0.1          # or a list, e.g. [127.0.0.1, 100.x.y.z] for tailscale; 0.0.0.0 = whole network over plain http
+port: 8880
+# sign-in uses accounts in the database: nfiforge user add NAME --role admin (or ./install.sh --add-user)
+write_actions: false     # trade actions (entry, add, exit, delete) stay off unless true; each bot also needs trading: true
+bot_editing: local       # add / edit / remove bots in Settings: local (this machine only), network, off
+btcgate:                 # market regime labels per coin (docs/BTCGATE.md); needs the btcgate extra installed
+  enabled: false         # starts the btcgate worker; restart nfiforge after changing
+  memory_mb: 4096        # the worker is restarted above this
+bots:
+  - name: Live
+    url: http://127.0.0.1:8080
+    username: freqtrader
+    password_env: LIVE_FT_PASSWORD
+    # trading: true        # allow trade actions on this bot (with write_actions: true)
+  # - name: Dry
+  #   url: http://127.0.0.1:8081
+  #   username: freqtrader
+  #   password_env: DRY_FT_PASSWORD

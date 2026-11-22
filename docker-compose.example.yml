@@ -1,0 +1,10 @@
+# Add next to your freqtrade compose file. network_mode host lets NFIForge reach bots on 127.0.0.1.
+services:
+  nfiforge:
+    image: ghcr.io/OWNER/nfiforge:latest   # or: build: .
+    network_mode: host
+    volumes:
+      - ./nfiforge:/data                    # config.yaml + NFIForge's own data
+    environment:
+      - LIVE_FT_PASSWORD=${LIVE_FT_PASSWORD}
+    restart: unless-stopped

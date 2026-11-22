@@ -1,0 +1,12 @@
+.venv
+.git
+data
+config.yaml
+.env
+**/__pycache__
+.pytest_cache
+.ruff_cache
+frontend/node_modules
+frontend/dist
+backend/nfiforge/web
+*.egg-info
