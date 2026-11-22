@@ -3,6 +3,10 @@
 Newest first. Versions follow `major.minor.patch`: patch = fixes, minor = new features.
 Update an install with `./install.sh --update`.
 
+## 1.1.3 (2026-11-22)
+
+- Docker image includes BTCGate (still off until `btcgate: {enabled: true}` in config.yaml)
+
 ## 1.1.2 (2026-11-22)
 
 - BTCGate install command points at the public BTCGate repo (the old pinned commit no longer exists)
