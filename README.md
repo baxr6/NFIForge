@@ -3,7 +3,7 @@
 Real-time dashboard for [freqtrade](https://www.freqtrade.io/) bots, with extras for
 [NostalgiaForInfinity](https://github.com/iterativv/NostalgiaForInfinity).
 
-What works is below, what changed in [CHANGELOG.md](CHANGELOG.md), how it's built in [docs/DESIGN.md](docs/DESIGN.md).
+What works is below, what changed in [CHANGELOG.md](CHANGELOG.md).
 
 How to use it, page by page: [docs/HELP.md](docs/HELP.md) (also in the app under **Help**).
 
