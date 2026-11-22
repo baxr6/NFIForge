@@ -3,6 +3,10 @@
 Newest first. Versions follow `major.minor.patch`: patch = fixes, minor = new features.
 Update an install with `./install.sh --update`.
 
+## 1.1.2 (2026-11-22)
+
+- BTCGate install command points at the public BTCGate repo (the old pinned commit no longer exists)
+
 ## 1.1.1 (2026-11-22)
 
 - Bot card: the container name has its own line again, so `last loop … ago` shows instead of being cut off
