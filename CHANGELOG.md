@@ -3,6 +3,11 @@
 Newest first. Versions follow `major.minor.patch`: patch = fixes, minor = new features.
 Update an install with `./install.sh --update`.
 
+## 1.1.4 (2026-11-22)
+
+- `nfiforge update` (pipx installs): downloads the newest release, installs it over this one (BTCGate is kept) and
+  restarts the service. This version still has to be installed by hand once
+
 ## 1.1.3 (2026-11-22)
 
 - Docker image includes BTCGate (still off until `btcgate: {enabled: true}` in config.yaml)
